@@ -2,7 +2,7 @@ import Auth from "../shared/authentication/Auth";
 import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Link } from "@mui/material";
 import { PersonAdd, ArrowForward } from "@mui/icons-material";
 
-function Login()
+function Signin()
 {
     return <>
         <Auth>
@@ -10,8 +10,8 @@ function Login()
                 <Container maxWidth='xs'>
                     <Stack rowGap={4}>
                         <Stack flexDirection='row' alignItems='center' color='primary.main'>
-                            <PersonAdd/>
-                            <Typography variant="h5" fontWeight='bold'>Signin</Typography>
+                            <PersonAdd fontSize="large"/>
+                            <Typography variant="h5" fontWeight='bold'>Sign in</Typography>
                         </Stack>
                         <TextField label="Email Address" variant="outlined" fullWidth/>
                         <TextField label="Password" variant="outlined" fullWidth/>
@@ -20,7 +20,7 @@ function Login()
                         <Stack justifyContent='space-between' flexDirection='row'>
                             <Typography color='primary' fontSize={12}>Forgot Password?</Typography>
                             <Stack flexDirection='row' alignItems='center' color='primary.main'>
-                                <Typography color='primary' fontSize={12}>Signin</Typography>
+                                <Typography color='primary' fontSize={12}>Sign up</Typography>
                                 <ArrowForward fontSize="small"/>
                             </Stack>
                         </Stack>
@@ -31,4 +31,4 @@ function Login()
     </>
 }
 
-export default Login;
+export default Signin;
