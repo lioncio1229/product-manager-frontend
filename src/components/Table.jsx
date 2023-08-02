@@ -1,7 +1,18 @@
-import { Container, Stack, Box, Typography, Button } from "@mui/material";
+import {useState} from 'react';
+import { Container, Stack, Box, Typography, Button, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { MoreHoriz } from "@mui/icons-material";
+import { Delete } from '@mui/icons-material';
 
 function Item({header=false, items=[]}) {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+    
     return (
       <Stack
         direction="row"
@@ -36,11 +47,26 @@ function Item({header=false, items=[]}) {
               >
                 Edit
               </Button>
-              <Button size="small">
+              <Button size="small" onClick={handleClick}>
                 <MoreHoriz fontSize="large" />
               </Button>
-            </Stack>
-          )}
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                'aria-labelledby': 'basic-button',
+                }}
+                >
+                    <MenuItem onClick={handleClose}>
+                    <ListItemIcon>
+                        <Delete color='error' fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Delete</ListItemText>
+                    </MenuItem>
+                </Menu>
+            </Stack>)}
         </Box>
       </Stack>
     );
