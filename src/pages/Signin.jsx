@@ -1,11 +1,11 @@
-import Auth from "../shared/authentication/Auth";
+import AuthMenu from "../components/AuthMenu";
 import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Link } from "@mui/material";
 import { PersonAdd, ArrowForward } from "@mui/icons-material";
 
 function Signin()
 {
     return <>
-        <Auth>
+        <AuthMenu>
             <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Container maxWidth='xs'>
                     <Stack rowGap={4}>
@@ -27,7 +27,7 @@ function Signin()
                     </Stack>
                 </Container>
             </Box>
-        </Auth>
+        </AuthMenu>
     </>
 }
 

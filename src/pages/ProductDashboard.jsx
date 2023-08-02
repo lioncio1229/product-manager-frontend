@@ -1,8 +1,10 @@
-import Header from "../shared/header";
+import Header from "../components/Header";
+import Table from "../components/table";
 
 function ProductDashboard(){
     return <>
         <Header />
+        <Table />
     </>
 }
 

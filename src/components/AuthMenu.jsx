@@ -29,7 +29,7 @@ function LeftSide(){
     </Stack>
 }
 
-function Auth({children}){
+function AuthMenu({children}){
     return <>
         <Box>
             <Grid container height={'100vh'}>
@@ -44,4 +44,4 @@ function Auth({children}){
     </>
 }
 
-export default Auth;
+export default AuthMenu;
