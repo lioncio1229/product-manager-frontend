@@ -3,7 +3,7 @@ import { Container, Stack, Box, Typography, Button, Menu, MenuItem, ListItemIcon
 import { MoreHoriz } from "@mui/icons-material";
 import { Delete } from '@mui/icons-material';
 
-function Item({header=false, items=[]}) {
+function Item({header=false, items=[], onEditClick}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -26,7 +26,7 @@ function Item({header=false, items=[]}) {
         pr={2}
       >
         {items.map((item, i) => (
-          <Box width="100%">
+          <Box width="100%" key={i}>
             <Typography color={`${header ? "grey.500" : "text"}`}>
               {item}
             </Typography>
@@ -44,6 +44,7 @@ function Item({header=false, items=[]}) {
                   fontWeight: "bold",
                   boxShadow: "none",
                 }}
+                onClick={onEditClick}
               >
                 Edit
               </Button>
@@ -72,19 +73,14 @@ function Item({header=false, items=[]}) {
     );
 }
 
-function Table(){
+function Table({header, items, onEditClick}){
     return (
         <Box pt={4}>
             <Container maxWidth='lg'>
-                <Item header items={['Name', 'Price', 'Creation Date']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
-                <Item items={['Example', 'Example', 'Example']} />
+                <Item header items={header} />
+                {
+                    items && items.map((item) => <Item items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item.id)}/>)
+                }
             </Container>
         </Box>
     )

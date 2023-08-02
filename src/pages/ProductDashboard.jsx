@@ -1,12 +1,10 @@
 import Header from "../components/Header";
-import Table from "../components/table";
-import Editor from "../features/editor";
+import Dashboard from "../features/dashboard";
 
 function ProductDashboard(){
     return <>
-        <Header />
-        <Table />
-        <Editor/>
+        <Header />        
+        <Dashboard/>
     </>
 }
 
