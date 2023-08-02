@@ -6,7 +6,7 @@ import ProductDashboard from "./ProductDashboard";
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <div>Hello World! Nice</div>
+        element: <Signin/>
     },
     {
         path: '/signin',
