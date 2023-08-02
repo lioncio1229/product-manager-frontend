@@ -11,19 +11,23 @@ function Dashboard(){
     const [products, setProduct] = useState([]);
     const [addMenuOpen, setAddMenuOpen] = useState(false);
     const [editMenuOpen, setEditMenuOpen] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState({});
     const navigate = useNavigate();
 
-    const {addProduct, getProducts} = useProductAPI((type, res) => {
+    const {addProduct, getProducts, updateProduct} = useProductAPI((type, res) => {
         switch(type)
         {
-            case 'getMany': 
-            {
+            case 'getMany': {
                 setProduct(res.data);
                 break;
             }
-            case 'add':
-            {
+            case 'add': {
                 setProduct([...products, res.data]);
+                break;
+            }
+            case 'update': {
+                const updatedProduct = res.data;
+                setProduct(products.map(p => p.id === updatedProduct.id ? {...p, ...updatedProduct} : p));
                 break;
             }
         }
@@ -43,11 +47,13 @@ function Dashboard(){
         setAddMenuOpen(false)
     }
 
-    const handleEditClick = id => {
+    const handleEditClick = product => {
+        setCurrentProduct(product);
         setEditMenuOpen(true);
     }
 
-    const handleUpdateProductClick = () => {
+    const handleUpdateProductClick = (id, name, price) => {
+        updateProduct(id, name, price)
         setEditMenuOpen(false);
     }
 
@@ -58,8 +64,17 @@ function Dashboard(){
             </Stack>
             <Table header={header} items={products} onEditClick={handleEditClick}/>
         </Container>
+        
         <Add open={addMenuOpen} onAddClick={handleAddClick} onClose={() => setAddMenuOpen(false)} />
-        <Edit open={editMenuOpen} onUpdateClick={handleUpdateProductClick} onClose={() => setEditMenuOpen(false)} />
+
+        <Edit 
+            id={currentProduct.id}
+            defaultName={currentProduct.name}
+            defaultPrice={currentProduct.price}
+            open={editMenuOpen}
+            onUpdateClick={handleUpdateProductClick} 
+            onClose={() => setEditMenuOpen(false)}
+        />
     </>)
 }
 

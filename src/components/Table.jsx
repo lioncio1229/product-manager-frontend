@@ -78,7 +78,7 @@ function Table({header, items, onEditClick}){
         <Box pt={4}>
             <Item header items={header} />
             {
-                items && items.map((item) => <Item key={item.id} items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item.id)}/>)
+                items && items.map((item) => <Item key={item.id} items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item)}/>)
             }
         </Box>
     )

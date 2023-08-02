@@ -2,7 +2,7 @@ import axios, {endpoints} from "../api/axios";
 
 export default function useProductAPI(onSuccess, onError)
 {
-    const checker = (actionName, request) => {
+    const fetchCall = (actionName, request) => {
         request.then((res) => {
             if(res.statusText === 'OK') onSuccess && onSuccess(actionName, res);
             else onError && onError(actionName, res);
@@ -11,12 +11,20 @@ export default function useProductAPI(onSuccess, onError)
     }
 
     const getProducts = () => {
-        checker('getMany', axios.get(endpoints.products));
+        fetchCall('getMany', axios.get(endpoints.products));
     }
 
     const addProduct = (name, price) => {
-        checker('add', axios.post(endpoints.products, {name, price}));
+        fetchCall('add', axios.post(endpoints.products, {name, price}));
     }
 
-    return {getProducts, addProduct};
+    const updateProduct = (id, name, price) => {
+        fetchCall('update', axios.put(`${endpoints.products}/${id}`, {name, price}));
+    }
+
+    const deleteProduct = id => {
+        fetchCall('delete', axios.delete(`${endpoints.products}/${id}`));
+    }
+
+    return {getProducts, addProduct, updateProduct, deleteProduct};
 }
