@@ -76,12 +76,10 @@ function Item({header=false, items=[], onEditClick}) {
 function Table({header, items, onEditClick}){
     return (
         <Box pt={4}>
-            <Container maxWidth='lg'>
-                <Item header items={header} />
-                {
-                    items && items.map((item) => <Item items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item.id)}/>)
-                }
-            </Container>
+            <Item header items={header} />
+            {
+                items && items.map((item) => <Item items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item.id)}/>)
+            }
         </Box>
     )
 }

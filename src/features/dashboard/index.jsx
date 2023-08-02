@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Edit from "./Edit";
+import Add from "./Add";
 import Table from "../../components/Table";
+import { Container, Stack, Button } from "@mui/material";
 
 function Dashboard(){
     const [addMenuOpen, setAddMenuOpen] = useState(false);
@@ -14,6 +16,10 @@ function Dashboard(){
         {id: '3', name: 'Example Name', price: '12$', creationDate: '09/12/2023'},
     ]
 
+    const handleAddClick = () => {
+        setAddMenuOpen(false)
+    }
+
     const handleEditClick = id => {
         setEditMenuOpen(true);
     }
@@ -23,7 +29,13 @@ function Dashboard(){
     }
 
     return (<>
-        <Table header={header} items={items} onEditClick={handleEditClick}/>
+        <Container maxWidth='lg' sx={{mt: 2}}>
+            <Stack direction='row' justifyContent='flex-end'>
+                <Button variant="contained" color="primary" onClick={() => setAddMenuOpen(true)}>Add Product</Button>
+            </Stack>
+            <Table header={header} items={items} onEditClick={handleEditClick}/>
+        </Container>
+        <Add open={addMenuOpen} onAddClick={handleAddClick} onClose={() => setAddMenuOpen(false)} />
         <Edit open={editMenuOpen} onUpdateClick={handleUpdateProductClick} onClose={() => setEditMenuOpen(false)} />
     </>)
 }
