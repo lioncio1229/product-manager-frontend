@@ -1,9 +1,10 @@
 import AuthMenu from "../components/AuthMenu";
-import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Link } from "@mui/material";
+import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Tooltip } from "@mui/material";
 import { PersonAdd, ArrowForward } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAuthenticated from "../hooks/useAuthenticated";
+import { Link } from "react-router-dom";
 
 function Signin()
 {
@@ -29,15 +30,24 @@ function Signin()
 
                         <TextField type="text" name='username' autoComplete="username" label="username" variant="outlined" fullWidth autoFocus/>
                         <TextField type="password" name='password'  autoComplete="current-password" label="Password" variant="outlined" fullWidth/>
-                        <FormControlLabel control={<Checkbox />} label="Remember me" />
+                        <Tooltip title="This feature was not implemented">
+                            <FormControlLabel control={<Checkbox />} label="Remember me" />
+                        </Tooltip>
                         <Button type="submit" variant="contained" sx={{p: 1.5}}>Sign in</Button>
 
                         <Stack justifyContent='space-between' flexDirection='row'>
-                            <Typography color='primary' fontSize={12}>Forgot Password?</Typography>
-                            <Stack flexDirection='row' alignItems='center' color='primary.main'>
-                                <Typography color='primary' fontSize={12}>Sign up</Typography>
-                                <ArrowForward fontSize="small"/>
-                            </Stack>
+                            <Tooltip title="This feature was not implemented">
+                                <Button size='small' sx={{textTransform: 'capitalize'}}>
+                                    Forgot Password?
+                                </Button>
+                            </Tooltip>
+                            <Button component={Link}
+                                to="/signup" 
+                                endIcon={<ArrowForward />} 
+                                size='small' 
+                                sx={{textTransform: 'capitalize'}}>
+                                    Signup
+                            </Button>
                         </Stack>
                     </Stack>
                 </Container>

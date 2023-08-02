@@ -1,11 +1,12 @@
 import { useState } from "react";
 import {Box, Container, Stack, Typography, Tooltip, IconButton, Avatar, Menu, MenuItem, ListItemText, ListItemIcon } from "@mui/material";
-import { Person } from "@mui/icons-material";
-import { Logout } from "@mui/icons-material";
+import { Person, Logout } from "@mui/icons-material";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import useAuthenticated from '../hooks/useAuthenticated';
 
-function Header({userName='username@email.com'}){
+function Header(){
+    const [username, setUserName] = useState('');
     const navigate = useNavigate();
     const {handleSignout} = useAuth(() => {
         navigate('/');
@@ -19,6 +20,10 @@ function Header({userName='username@email.com'}){
     const handleClose = () => {
       setAnchorEl(null);
     };
+
+    useAuthenticated((res) => {
+        setUserName(res.data.username);
+    });
 
     return <>
         <Box bgcolor='primary.main' p={1} boxShadow={2}>
@@ -39,8 +44,11 @@ function Header({userName='username@email.com'}){
                         'aria-labelledby': 'basic-button',
                         }}
                     >
-                    <MenuItem>
-                        <ListItemText>{userName}</ListItemText>
+                    <MenuItem sx={{minWidth: 200}}>
+                        <ListItemIcon>
+                            <Person color='primary' fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>{username}</ListItemText>
                     </MenuItem>
                     <MenuItem onClick={handleSignout}>
                         <ListItemIcon>

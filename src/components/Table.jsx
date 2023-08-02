@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { Container, Stack, Box, Typography, Button, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Stack, Box, Typography, Button, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { MoreHoriz } from "@mui/icons-material";
 import { Delete } from '@mui/icons-material';
 
@@ -66,7 +66,7 @@ function Item({header=false, items=[], onEditClick, onDeleteClick}) {
                 'aria-labelledby': 'basic-button',
                 }}
                 >
-                    <MenuItem onClick={onDeleteMiddleware}>
+                    <MenuItem onClick={onDeleteMiddleware} sx={{minWidth: 200}}>
                       <ListItemIcon>
                           <Delete color='error' fontSize="small" />
                       </ListItemIcon>
