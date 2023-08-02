@@ -33,20 +33,20 @@ function Item({header=false, items=[], onEditClick, onDeleteClick}) {
       >
         {items.map((item, i) => (
           <Box width="100%" key={i}>
-            <Typography color={`${header ? "grey.500" : "text"}`}>
+            <Typography color={`${header ? "grey.500" : "text"}`} fontSize={{xs: '3vw', sm: 16}}>
               {item}
             </Typography>
           </Box>
         ))}
-        <Box width="70%">
+        <Box minWidth={{xs: 130, md: 150}}>
           {!header && (
-            <Stack direction="row" columnGap={3} alignItems="center">
+            <Stack direction="row" columnGap={{xs: 2, sm: 3}} alignItems="center">
               <Button
                 variant="contained"
                 sx={{
                   bgcolor: "grey.200",
                   color: "text.primary",
-                  fontSize: 10,
+                  fontSize: {xs: 8, md: 10},
                   fontWeight: "bold",
                   boxShadow: "none",
                 }}

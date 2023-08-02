@@ -33,10 +33,10 @@ function AuthMenu({children}){
     return <>
         <Box>
             <Grid container height={'100vh'}>
-                <Grid item xs={6}>
+                <Grid item xs={0} md={6} display={{xs: 'none', md: 'block'}}>
                     <LeftSide />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     {children}
                 </Grid>
             </Grid>

@@ -3,9 +3,13 @@ import { Close } from "@mui/icons-material";
 
 function SideMenu({title='Title', open, onClose, children}){
     return (
-    <Drawer anchor="right" open={open} p={0} onClose={onClose}>
+    <Drawer anchor="right" open={open} p={0} onClose={onClose} PaperProps={{
+        sx: {
+          width: {xs: '100%', md: 450}
+        }
+      }}>
         <Container >
-            <Box width={450}>
+            <Box>
                 <Stack direction='row' justifyContent='space-between' alignItems='center' pt={2} pb={2}>
                     <Typography color='primary' fontWeight='600'>{title}</Typography>
                     <Button sx={{minWidth: 0, p: 0}}>
