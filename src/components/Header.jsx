@@ -2,8 +2,14 @@ import { useState } from "react";
 import {Box, Container, Stack, Typography, Tooltip, IconButton, Avatar, Menu, MenuItem, ListItemText, ListItemIcon } from "@mui/material";
 import { Person } from "@mui/icons-material";
 import { Logout } from "@mui/icons-material";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 function Header({userName='username@email.com'}){
+    const navigate = useNavigate();
+    const {handleSignout} = useAuth(() => {
+        navigate('/');
+    });
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     
@@ -36,7 +42,7 @@ function Header({userName='username@email.com'}){
                     <MenuItem>
                         <ListItemText>{userName}</ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={handleSignout}>
                         <ListItemIcon>
                             <Logout color='primary' fontSize="small" />
                         </ListItemIcon>

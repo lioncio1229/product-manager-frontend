@@ -3,10 +3,19 @@ import Edit from "./Edit";
 import Add from "./Add";
 import Table from "../../components/Table";
 import { Container, Stack, Button } from "@mui/material";
+import useAuthenticated from "../../hooks/useAuthenticated";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard(){
     const [addMenuOpen, setAddMenuOpen] = useState(false);
     const [editMenuOpen, setEditMenuOpen] = useState(false);
+
+    const navigate = useNavigate();
+    
+    useAuthenticated(null, (err) => {
+        console.log('navigate please');
+        navigate('/signin');
+    });
 
     const header = ['Name', 'Price', 'Creation Date']
     const items = [
