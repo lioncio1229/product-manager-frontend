@@ -14,7 +14,7 @@ function Dashboard(){
     const [currentProduct, setCurrentProduct] = useState({});
     const navigate = useNavigate();
 
-    const {addProduct, getProducts, updateProduct} = useProductAPI((type, res) => {
+    const {addProduct, getProducts, updateProduct, deleteProduct} = useProductAPI((type, res) => {
         switch(type)
         {
             case 'getMany': {
@@ -28,6 +28,11 @@ function Dashboard(){
             case 'update': {
                 const updatedProduct = res.data;
                 setProduct(products.map(p => p.id === updatedProduct.id ? {...p, ...updatedProduct} : p));
+                break;
+            }
+            case 'delete': {
+                const id = res.data.id;
+                setProduct(products.filter(p => p.id !== id));
                 break;
             }
         }
@@ -57,12 +62,16 @@ function Dashboard(){
         setEditMenuOpen(false);
     }
 
+    const handleProductDelete = id => {
+        deleteProduct(id);
+    }
+
     return (<>
         <Container maxWidth='lg' sx={{mt: 2}}>
             <Stack direction='row' justifyContent='flex-end'>
                 <Button variant="contained" color="primary" onClick={() => setAddMenuOpen(true)}>Add Product</Button>
             </Stack>
-            <Table header={header} items={products} onEditClick={handleEditClick}/>
+            <Table header={header} items={products} onEditClick={handleEditClick} onDeleteClick={handleProductDelete}/>
         </Container>
         
         <Add open={addMenuOpen} onAddClick={handleAddClick} onClose={() => setAddMenuOpen(false)} />

@@ -3,9 +3,10 @@ import { Container, Stack, Box, Typography, Button, Menu, MenuItem, ListItemIcon
 import { MoreHoriz } from "@mui/icons-material";
 import { Delete } from '@mui/icons-material';
 
-function Item({header=false, items=[], onEditClick}) {
+function Item({header=false, items=[], onEditClick, onDeleteClick}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -13,6 +14,11 @@ function Item({header=false, items=[], onEditClick}) {
       setAnchorEl(null);
     };
     
+    const onDeleteMiddleware = () => {
+      onDeleteClick();
+      handleClose();
+    }
+
     return (
       <Stack
         direction="row"
@@ -60,11 +66,11 @@ function Item({header=false, items=[], onEditClick}) {
                 'aria-labelledby': 'basic-button',
                 }}
                 >
-                    <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <Delete color='error' fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>Delete</ListItemText>
+                    <MenuItem onClick={onDeleteMiddleware}>
+                      <ListItemIcon>
+                          <Delete color='error' fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Delete</ListItemText>
                     </MenuItem>
                 </Menu>
             </Stack>)}
@@ -73,13 +79,11 @@ function Item({header=false, items=[], onEditClick}) {
     );
 }
 
-function Table({header, items, onEditClick}){
+function Table({header, items, onEditClick, onDeleteClick}){
     return (
         <Box pt={4}>
             <Item header items={header} />
-            {
-                items && items.map((item) => <Item key={item.id} items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item)}/>)
-            }
+            {items && items.map((item) => <Item key={item.id} items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item)} onDeleteClick={() => onDeleteClick(item.id)}/>)}
         </Box>
     )
 }
