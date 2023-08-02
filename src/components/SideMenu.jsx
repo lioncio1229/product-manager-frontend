@@ -1,31 +1,24 @@
-import { Box, Typography, Stack, Container, Button } from "@mui/material";
+import { Drawer, Box, Typography, Stack, Container, Button, Divider } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
-function SideMenu({title='Title', children}){
+function SideMenu({title='Title', open, onClose, children}){
     return (
-    <Box 
-        width={450}
-        height='100vh'
-        bgcolor='white'
-        sx={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-        }}
-        boxShadow='3'
-    >
+    <Drawer anchor="right" open={open} p={0} onClose={onClose}>
         <Container >
-            <Box sx={{borderBottom: '1px solid', borderColor: 'grey.200'}}>
-                <Stack direction='row' justifyContent='space-between' alignItems='center' p={1.2}>
+            <Box width={450}>
+                <Stack direction='row' justifyContent='space-between' alignItems='center' pt={2} pb={2}>
                     <Typography color='primary' fontWeight='600'>{title}</Typography>
-                    <Button >
-                        <Close color='primary' size='large'/>
+                    <Button sx={{minWidth: 0, p: 0}}>
+                        <Close color='primary'/>
                     </Button>
                 </Stack>
             </Box>
+        </Container>
+        <Divider />
+        <Container>
             {children}
         </Container>
-    </Box>)
+    </Drawer>)
 }
 
 export default SideMenu;
