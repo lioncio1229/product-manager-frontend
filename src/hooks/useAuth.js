@@ -6,6 +6,7 @@ export default function useAuth(onSuccess, onError){
         const endpoint = `${endpoints.auth}/?type=${type}`;
         (form ? axios.post(endpoint, form) : axios.post(endpoint))
         .then(res => {
+            console.log('res: ', res);
             if(res.statusText === 'OK')
             {
                 onSuccess && onSuccess(res);
