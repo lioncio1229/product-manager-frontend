@@ -6,10 +6,7 @@ export default function useAuth(onSuccess, onError){
         const endpoint = `${endpoints.auth}/?type=${type}`;
         (form ? axios.post(endpoint, form) : axios.post(endpoint))
         .then(res => {
-            if(res.statusText === 'OK')
-            {
-                onSuccess && onSuccess(res);
-            }
+            onSuccess && onSuccess(res);
         })
         .catch((e) => onError && onError(e));
     }

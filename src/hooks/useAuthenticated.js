@@ -5,13 +5,7 @@ export default function useAuthenticated(onSuccess, onError){
     useEffect(() => {
         axios.get(`${endpoints.auth}`)
         .then(res => {
-            if(res.statusText === 'OK')
-            {
-                onSuccess && onSuccess(res)
-            }
-            else {
-                onError && onError(res);
-            }
+            onSuccess && onSuccess(res);
         })
         .catch((e) => onError && onError(e))
     }, []);

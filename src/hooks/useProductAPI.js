@@ -4,8 +4,7 @@ export default function useProductAPI(onSuccess, onError)
 {
     const fetchCall = (actionName, request) => {
         request.then((res) => {
-            if(res.statusText === 'OK') onSuccess && onSuccess(actionName, res);
-            else onError && onError(actionName, res);
+            onSuccess && onSuccess(actionName, res);
         })
         .catch(e => onError && onError(actionName, res));
     }
