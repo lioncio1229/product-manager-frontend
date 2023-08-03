@@ -6,6 +6,6 @@ export const endpoints = {
 }
 
 export default axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: import.meta.env.PROD ? 'https://yourproductsapi.onrender.com' : 'http://localhost:5000',
     withCredentials: true,
 });
