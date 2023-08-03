@@ -24,7 +24,10 @@ function Add({onAddClick, open, onClose}){
                     color="primary" 
                     size="large" 
                     sx={{fontWeight: '600', textTransform: 'capitalize', mt: 2}}
-                    onClick={() => onAddClick(productName, price)}
+                    onClick={() => {
+                        onAddClick(productName, price);
+                        closeMiddleware();
+                    }}
                     >
                     Add Product
                 </Button>

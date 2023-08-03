@@ -10,7 +10,7 @@ function Edit({id, defaultName='', defaultPrice='', onUpdateClick, open, onClose
     useEffect(() => {
         setProductName(defaultName);
         setProductPrice(defaultPrice);
-    }, [defaultName, defaultPrice]);
+    }, [open]);
 
     const closeMiddleware = () => {
         setProductName('');
