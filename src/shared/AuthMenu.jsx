@@ -19,11 +19,11 @@ function FloatingCircle({size, pos}){
 function LeftSide(){
     return <Stack bgcolor='primary.main' height='100%' justifyContent='center' alignItems='center' sx={{position: 'relative'}}>
         <FloatingCircle size={70} pos={{top: '10%', right: '10%'}}/>
-        <FloatingCircle size={120} pos={{bottom: '14%', right: -50}}/>
+        <FloatingCircle size={120} pos={{bottom: '14%', right: '-5%'}}/>
         <FloatingCircle size={50} pos={{bottom: '25%', left: '10%'}}/>
         <FloatingCircle size={60} pos={{top: '25%', left: '15%'}}/>
-        <Box color='white' width={450}>
-            <Typography variant='h1' fontSize={40} mb={4}>Coding Challenge</Typography>
+        <Box color='white' width={300}>
+            <Typography variant='h1' fontSize={40} mb={4}>Product Manager</Typography>
             <Typography lineHeight={2}>This is done using React, MUI, Figma, Node.js, and MongoDB. MUI is very cool UI library</Typography>
         </Box>
     </Stack>

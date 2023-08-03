@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../shared/Header";
 import Dashboard from "../features/dashboard";
 
 function ProductDashboard(){

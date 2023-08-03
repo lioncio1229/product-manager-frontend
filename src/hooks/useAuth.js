@@ -26,6 +26,9 @@ export default function useAuth(onSuccess, onError){
         {
             request('signup', form);
         }
+        else{
+            onError({passwordNotMatch: true});
+        }
     }
 
     const handleSignout = (e) => {

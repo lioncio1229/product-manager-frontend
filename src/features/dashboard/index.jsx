@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Edit from "./Edit";
 import Add from "./Add";
-import Table from "../../components/Table";
+import Table from "../../shared/Table";
 import { Container, Stack, Button } from "@mui/material";
 import useAuthenticated from "../../hooks/useAuthenticated";
 import { useNavigate } from "react-router-dom";

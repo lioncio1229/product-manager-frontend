@@ -1,16 +1,26 @@
-import AuthMenu from "../components/AuthMenu";
-import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Tooltip } from "@mui/material";
+import AuthMenu from "../shared/AuthMenu";
+import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Tooltip, Snackbar, Alert } from "@mui/material";
 import { Person, ArrowForward } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAuthenticated from "../hooks/useAuthenticated";
+import useSnackbar from "../hooks/useSnackbar";
 
 function Signup()
 {
     const navigate = useNavigate();
+    const {openSnackbar, closeSnackbar, snackbarProps, message} = useSnackbar();
 
     const {handleSignup} = useAuth(() => {
         navigate('/dashboard');
+    }, (err) => {
+        if(err.passwordNotMatch)
+        {
+            openSnackbar('Password not matched');
+        }
+        else{
+            openSnackbar('Sign up error');
+        }
     });
 
     useAuthenticated((res) => {
@@ -48,6 +58,11 @@ function Signup()
                     </Stack>
                 </Container>
             </Box>
+            <Snackbar {...snackbarProps}>
+                <Alert onClose={closeSnackbar} severity="error" sx={{ width: '100%' }}>
+                    {message}
+                </Alert>
+            </Snackbar>
         </AuthMenu>
     </>
 }

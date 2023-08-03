@@ -1,4 +1,4 @@
-import SideMenu from "../../components/SideMenu";
+import SideMenu from "../../shared/SideMenu";
 import { Typography, Button, TextField, Stack } from "@mui/material";
 import { useState } from "react";
 
