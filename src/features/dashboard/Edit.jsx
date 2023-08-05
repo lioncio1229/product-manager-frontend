@@ -1,6 +1,6 @@
 import SideMenu from "../../shared/SideMenu";
 import { Typography, Button, TextField, Stack } from "@mui/material";
-import { useState, useEffect } from "react";
+import { memo, useState, useEffect } from "react";
 
 function Edit({id, defaultName='', defaultPrice='', onUpdateClick, open, onClose}){
 
@@ -39,4 +39,4 @@ function Edit({id, defaultName='', defaultPrice='', onUpdateClick, open, onClose
     )
 }
 
-export default Edit;
+export default memo(Edit);

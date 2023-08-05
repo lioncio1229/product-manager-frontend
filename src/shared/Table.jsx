@@ -1,9 +1,9 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import { Stack, Box, Typography, Button, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { MoreHoriz } from "@mui/icons-material";
 import { Delete } from '@mui/icons-material';
 
-function Item({header=false, items=[], onEditClick, onDeleteClick}) {
+const Item = memo(({header=false, items=[], onEditClick, onDeleteClick}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     
@@ -77,15 +77,22 @@ function Item({header=false, items=[], onEditClick, onDeleteClick}) {
         </Box>
       </Stack>
     );
-}
+})
 
 function Table({header, items, onEditClick, onDeleteClick}){
     return (
         <Box pt={4}>
             <Item header items={header} />
-            {items && items.map((item) => <Item key={item.id} items={Object.values(item).slice(1)} onEditClick={() => onEditClick(item)} onDeleteClick={() => onDeleteClick(item.id)}/>)}
+            {
+              items && items.map((item) => (
+              <Item key={item.id} 
+                items={Object.values(item).slice(1)}
+                onEditClick={() => onEditClick(item)}
+                onDeleteClick={() => onDeleteClick(item.id)}/>
+              ))
+            }
         </Box>
     )
 }
 
-export default Table;
+export default memo(Table);

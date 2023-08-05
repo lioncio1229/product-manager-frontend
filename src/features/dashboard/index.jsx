@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Edit from "./Edit";
 import Add from "./Add";
 import Table from "../../shared/Table";
@@ -6,6 +6,8 @@ import { Container, Stack, Button } from "@mui/material";
 import useAuthenticated from "../../hooks/useAuthenticated";
 import { useNavigate } from "react-router-dom";
 import useProductAPI from "../../hooks/useProductAPI";
+
+const header = ['Name', 'Price', 'Creation Date'];
 
 function Dashboard(){
     const [products, setProduct] = useState([]);
@@ -45,26 +47,24 @@ function Dashboard(){
         navigate('/signin');
     });
 
-    const header = ['Name', 'Price', 'Creation Date']
-
-    const handleAddClick = (name, price) => {
+    const handleAddClick = useCallback((name, price) => {
         addProduct(name, price);
         setAddMenuOpen(false)
-    }
+    }, [products]);
 
-    const handleEditClick = product => {
+    const handleEditClick = useCallback(product => {
         setCurrentProduct(product);
         setEditMenuOpen(true);
-    }
+    }, [products])
 
-    const handleUpdateProductClick = (id, name, price) => {
+    const handleUpdateProductClick = useCallback((id, name, price) => {
         updateProduct(id, name, price)
         setEditMenuOpen(false);
-    }
+    }, [products])
 
-    const handleProductDelete = id => {
+    const handleProductDelete = useCallback(id => {
         deleteProduct(id);
-    }
+    }, [products])
 
     return (<>
         <Container maxWidth='lg' sx={{mt: 2}}>
@@ -74,7 +74,7 @@ function Dashboard(){
             <Table header={header} items={products} onEditClick={handleEditClick} onDeleteClick={handleProductDelete}/>
         </Container>
         
-        <Add open={addMenuOpen} onAddClick={handleAddClick} onClose={() => setAddMenuOpen(false)} />
+        <Add open={addMenuOpen} onAddClick={handleAddClick} onClose={useCallback(() => setAddMenuOpen(false), [products])} />
 
         <Edit 
             id={currentProduct.id}
@@ -82,7 +82,7 @@ function Dashboard(){
             defaultPrice={currentProduct.price}
             open={editMenuOpen}
             onUpdateClick={handleUpdateProductClick} 
-            onClose={() => setEditMenuOpen(false)}
+            onClose={useCallback(() => setEditMenuOpen(false), [products])}
         />
     </>)
 }

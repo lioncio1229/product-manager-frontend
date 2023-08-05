@@ -1,6 +1,6 @@
 import SideMenu from "../../shared/SideMenu";
 import { Typography, Button, TextField, Stack } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 function Add({onAddClick, open, onClose}){
     const [productName, setProductName] = useState('');
@@ -11,6 +11,7 @@ function Add({onAddClick, open, onClose}){
         setProductPrice('');
         onClose();
     }
+    console.log('add!');
 
     return (
         <SideMenu title='Add New Product' open={open} onClose={closeMiddleware}>
@@ -36,4 +37,4 @@ function Add({onAddClick, open, onClose}){
     )
 }
 
-export default Add;
+export default memo(Add);
