@@ -21,7 +21,9 @@ export default function useAuth(onSuccess, onError){
 
         if(username && password && confirmedPassword && (password === confirmedPassword))
         {
-            request('signup', form);
+            setTimeout(() => {
+                request('signup', form);
+            }, 8000)
         }
         else{
             onError({passwordNotMatch: true});
