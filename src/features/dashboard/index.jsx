@@ -2,10 +2,11 @@ import { useState, useCallback } from "react";
 import Edit from "./Edit";
 import Add from "./Add";
 import Table from "../../shared/Table";
-import { Container, Stack, Button } from "@mui/material";
+import { Container, Stack, Button, Box } from "@mui/material";
 import useAuthenticated from "../../hooks/useAuthenticated";
 import { useNavigate } from "react-router-dom";
 import useProductAPI from "../../hooks/useProductAPI";
+import LoadingBar from "../../shared/LoadingBar";
 
 const header = ['Name', 'Price', 'Creation Date'];
 
@@ -14,6 +15,8 @@ function Dashboard(){
     const [addMenuOpen, setAddMenuOpen] = useState(false);
     const [editMenuOpen, setEditMenuOpen] = useState(false);
     const [currentProduct, setCurrentProduct] = useState({});
+    const [loadingBarOpen, setLoadingBarOpen] = useState(false);
+
     const navigate = useNavigate();
 
     const {addProduct, getProducts, updateProduct, deleteProduct} = useProductAPI((type, res) => {
@@ -41,15 +44,18 @@ function Dashboard(){
     });
     
     useAuthenticated((res) => {
+        setLoadingBarOpen(false);
         getProducts();
     }, (err) => {
         console.log('navigate please');
         navigate('/signin');
+    }, () => {
+        setLoadingBarOpen(true);
     });
 
     const handleAddClick = useCallback((name, price) => {
         addProduct(name, price);
-        setAddMenuOpen(false)
+        setAddMenuOpen(false);
     }, [products]);
 
     const handleEditClick = useCallback(product => {
@@ -67,6 +73,19 @@ function Dashboard(){
     }, [products])
 
     return (<>
+        {
+            loadingBarOpen &&
+            <Box sx={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                bgcolor: 'rgba(255, 255, 255, 0.2)',
+                zIndex: 1000,
+            }}></Box>
+        }
+        <LoadingBar open={loadingBarOpen}/>
         <Container maxWidth='lg' sx={{mt: 2}}>
             <Stack direction='row' justifyContent='flex-end'>
                 <Button variant="contained" color="primary" onClick={() => setAddMenuOpen(true)}>Add Product</Button>
