@@ -9,6 +9,7 @@ import useSnackbar from "../hooks/useSnackbar";
 import useShowComponentAfter from "../hooks/useShowComponentAfter";
 import CustomAlert from "../shared/CustomAlert";
 import { useState } from "react";
+import LoadingBar from '../shared/LoadingBar';
 
 function Signup()
 {
@@ -16,12 +17,12 @@ function Signup()
     const {openSnackbar, closeSnackbar, snackbarProps, message} = useSnackbar();
     const {open, show, hide, cut} = useShowComponentAfter(5000);
     const [loading, setLoading] = useState(false);
+    const [loadingBarOpen, setLoadingBarOpen] = useState(false);
 
     const {handleSignup} = useAuth(() => {
         setLoading(false);
         navigate('/dashboard');
     }, (err) => {
-        cut();
         setLoading(false);
         if(err.passwordNotMatch)
         {
@@ -33,20 +34,26 @@ function Signup()
     });
 
     useAuthenticated((res) => {
+        setLoadingBarOpen(false);
+        cut();
         navigate('/dashboard');
+    }, (err) => {
+        setLoadingBarOpen(false);
+        cut();
+    }, () => {
+        show();
+        setLoadingBarOpen(true);
     });
 
     const onHandleSignup = (e) => {
-        show();
         setLoading(true);
         handleSignup(e);
     }
 
     return <>
-        {
-            open && <CustomAlert title="FYI" onClose={hide}
-            message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience a slight delay as the server may be in a sleeping state. Subsequent interactions will be seamless once the server is up and running." />
-        }
+        <LoadingBar open={loadingBarOpen} />
+        <CustomAlert open={open} title="FYI" onClose={hide} message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience delay as the server may be in a sleeping state." />
+        
         <AuthMenu>
             <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Container maxWidth='xs'>
@@ -64,7 +71,7 @@ function Signup()
                             <FormControlLabel control={<Checkbox />} label="Remember me" />
                         </Tooltip>
 
-                        <LoadingButton loading={loading} type="submit" variant="contained" sx={{p: 1.5}}>Signup</LoadingButton>
+                        <LoadingButton loading={loading} type="submit" variant="contained" sx={{p: 1.5}} disabled={loadingBarOpen}>Signup</LoadingButton>
                         <Stack justifyContent='flex-end' flexDirection='row'>
                             <Button component={Link}
                                 to="/signin" 

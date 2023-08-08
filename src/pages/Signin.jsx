@@ -1,5 +1,5 @@
 import AuthMenu from "../shared/AuthMenu";
-import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Tooltip, Snackbar, Alert, AlertTitle } from "@mui/material";
+import { Container, Box, Stack, Typography, TextField, Button, FormControlLabel , Checkbox, Tooltip, Snackbar, Alert, AlertTitle, formLabelClasses } from "@mui/material";
 import {LoadingButton} from '@mui/lab';
 import { PersonAdd, ArrowForward } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import useSnackbar from "../hooks/useSnackbar";
 import useShowComponentAfter from "../hooks/useShowComponentAfter";
 import {useState} from 'react';
 import CustomAlert from "../shared/CustomAlert";
+import LoadingBar from '../shared/LoadingBar';
 
 function Signin()
 {
@@ -17,31 +18,38 @@ function Signin()
     const {openSnackbar, closeSnackbar, snackbarProps, message} = useSnackbar();
     const {open, show, hide, cut} = useShowComponentAfter(5000);
     const [loading, setLoading] = useState(false);
+    const [loadingBarOpen, setLoadingBarOpen] = useState(false);
 
     const {handleSignin} = useAuth(() => {
         setLoading(false);
         navigate('/dashboard');
     }, () => { 
-        cut();
         setLoading(false);
         openSnackbar('Signin Error');
     });
 
     useAuthenticated((res) => {
+        setLoadingBarOpen(false);
+        cut();
         navigate('/dashboard');
-    }, (err) => console.error('Not authenticated'));
+    }, (err) => {
+        console.error('Not authenticated');
+        setLoadingBarOpen(false);
+        cut();
+    }, () => {
+        show();
+        setLoadingBarOpen(true);
+    });
 
     const onHandleSignin = (e) => {
-        show();
         setLoading(true);
         handleSignin(e);
     }
 
     return <>
-    {
-        open && <CustomAlert title="FYI" onClose={hide}
-        message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience a slight delay as the server may be in a sleeping state. Subsequent interactions will be seamless once the server is up and running." />
-    }
+        <LoadingBar open={loadingBarOpen} />
+        <CustomAlert open={open} title="FYI" onClose={hide} message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience delay as the server may be in a sleeping state." />
+        
         <AuthMenu>
             <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Container maxWidth='xs'>
@@ -56,7 +64,7 @@ function Signin()
                         <Tooltip title="This feature was not implemented">
                             <FormControlLabel control={<Checkbox />} label="Remember me" />
                         </Tooltip>
-                        <LoadingButton loading={loading} type="submit" variant="contained" sx={{p: 1.5}}>Sign in</LoadingButton>
+                        <LoadingButton loading={loading} type="submit" variant="contained" sx={{p: 1.5}} disabled={loadingBarOpen}>Sign in</LoadingButton>
 
                         <Stack justifyContent='space-between' flexDirection='row'>
                             <Tooltip title="This feature was not implemented">
