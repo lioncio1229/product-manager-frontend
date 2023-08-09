@@ -8,9 +8,10 @@ import useAuthenticated from "../hooks/useAuthenticated";
 import { Link } from "react-router-dom";
 import useSnackbar from "../hooks/useSnackbar";
 import useShowComponentAfter from "../hooks/useShowComponentAfter";
-import {useState} from 'react';
+import {useState, useMemo} from 'react';
 import CustomAlert from "../shared/CustomAlert";
 import LoadingBar from '../shared/LoadingBar';
+import ErrorText from "../shared/ErrorText";
 
 function Signin()
 {
@@ -19,6 +20,19 @@ function Signin()
     const {open, show, hide, cut} = useShowComponentAfter(5000);
     const [loading, setLoading] = useState(false);
     const [loadingBarOpen, setLoadingBarOpen] = useState(false);
+
+
+    const [data, setData] = useState({
+        username: '',
+        password: '',
+    })
+
+    const [error, setError] = useState({
+        username: '',
+        password: '',
+    })
+
+    const hasError = useMemo(() => !Object.values(data).every(v => v.length > 0) ,[data]);
 
     const {handleSignin} = useAuth(() => {
         setLoading(false);
@@ -46,6 +60,26 @@ function Signin()
         handleSignin(e);
     }
 
+    const handleUsernameChange = (e) => {
+        const username = e.target.value;
+        setData((data) => ({...data, username}));
+
+        if(username === '')
+            setError((err) => ({...err, username: 'Username Required'}));
+        else
+            setError((err) => ({...err, username: ''}));
+    }
+
+    const handlePasswordChange = (e) => {
+        const password = e.target.value;
+        setData((data) => ({...data, password}));
+
+        if(password === '')
+            setError((err) => ({...err, password: 'Password Required'}));
+        else
+            setError((err) => ({...err, password: ''}));
+    }
+
     return <>
         <LoadingBar open={loadingBarOpen} />
         <CustomAlert open={open} title="FYI" onClose={hide} message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience delay as the server may be in a sleeping state." />
@@ -59,12 +93,38 @@ function Signin()
                             <Typography variant="h5" fontWeight='bold'>Sign in</Typography>
                         </Stack>
 
-                        <TextField type="text" name='username' autoComplete="username" label="username" variant="outlined" fullWidth autoFocus/>
-                        <TextField type="password" name='password'  autoComplete="current-password" label="Password" variant="outlined" fullWidth/>
+                        <div>
+                            <TextField 
+                                type="text" 
+                                name='username' 
+                                autoComplete="username" 
+                                label="username" 
+                                variant="outlined"
+                                fullWidth 
+                                autoFocus
+                                onChange={handleUsernameChange}
+                                value={data.username}
+                            />
+                            <ErrorText message={error.username}/>
+                        </div>
+                        <div>
+                          <TextField 
+                            type="password"
+                            name='password'
+                            autoComplete="current-password"
+                            label="Password"
+                            variant="outlined"
+                            fullWidth
+                            onChange={handlePasswordChange}
+                            value={data.password}
+                          />
+                          <ErrorText message={error.password}/>
+                        </div>
+
                         <Tooltip title="This feature was not implemented">
                             <FormControlLabel control={<Checkbox />} label="Remember me" />
                         </Tooltip>
-                        <LoadingButton loading={loading} type="submit" variant="contained" sx={{p: 1.5}} disabled={loadingBarOpen}>Sign in</LoadingButton>
+                        <LoadingButton loading={loading} type="submit" variant="contained" sx={{p: 1.5}} disabled={loadingBarOpen || hasError}>Sign in</LoadingButton>
 
                         <Stack justifyContent='space-between' flexDirection='row'>
                             <Tooltip title="This feature was not implemented">
