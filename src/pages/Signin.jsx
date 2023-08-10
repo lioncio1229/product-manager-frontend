@@ -37,9 +37,10 @@ function Signin()
     const {handleSignin} = useAuth(() => {
         setLoading(false);
         navigate('/dashboard');
-    }, () => { 
+    }, (e) => { 
+        console.log(e)
         setLoading(false);
-        openSnackbar('Signin Error');
+        openSnackbar(e.response.data.name || 'Signin Error');
     });
 
     useAuthenticated((res) => {
