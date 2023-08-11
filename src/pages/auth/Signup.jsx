@@ -26,13 +26,13 @@ function Signup()
     })
     
     const [error, setError] = useState({
-        username: '',
-        password: '',
-        confirmPassword: '',
+        username: {message: '', isError: true},
+        password: {message: '', isError: true},
+        confirmPassword: {message: '', isError: true},
     })
-    
-    const hasError = useMemo(() => !Object.values(error).every(v => v.length === 0) ,[error]);
-    
+
+    const hasError = useMemo(() => Object.values(error).some(v => v.isError) ,[error]);
+
     const {handleSignup} = useAuth(() => {
         setLoading(false);
         navigate('/dashboard');
@@ -62,39 +62,50 @@ function Signup()
         const {value: username} = e.target;
         setData((data) => ({...data, username}));
 
-        let errorMessage = '';
+        let message = '', isError = false;
 
         if(username === '') 
-            errorMessage = 'Username Required';
+        {
+            isError = true;
+            message = 'Username Required';
+        }
         else if(!/^[a-zA-Z0-9_]+$/.test(username))
-            errorMessage = 'Invalid character';
+        {
+            isError = true;
+            message = 'Invalid character';
+        }
         else if(username.length <= 3)
-            errorMessage = 'Username length should be 4 and above'
+        {
+            isError = true;
+            message = 'Username length should be 4 and above'
+        }
 
-        setError((err) => ({...err, username: errorMessage}));
+        setError((err) => ({...err, username: {message, isError}}));
     }
 
-    const validatePassword = (e) => {
+    const handlePasswordChange = (e) => {
         const {value, name} = e.target;
         setData((data) => ({...data, [name]: value}));
     }
 
     useEffect(() => {
         const {password, confirmPassword} = data;
+        
         if(password === null && confirmPassword === null) return;
-        let pError = '', cpError = '';
+        const temp = {message: '', isError: false};
+        let pError = {...temp}, cpError = {...temp};
         
         if(password === '')
-            pError = 'Password required';
+            pError = {message: 'Password required', isError: true}
         else if(password.length < 6)
-            pError = 'Password length must be less than 6';
+            pError = {message: 'Password length must be less than 6', isError: true}
 
         if(!confirmPassword)
-            cpError = 'Confirm Password Required';
+            cpError = {message: 'Confirm Password Required', isError: true}
         else if(password !== confirmPassword)
-            cpError = 'Password not match';
+            cpError = {message: 'Password not match', isError: true}
 
-        setError(err => ({...err, password: pError, confirmPassword: cpError}));        
+        setError(err => ({...err, password: pError, confirmPassword: cpError})); 
 
     }, [data.password, data.confirmPassword]);
 
@@ -122,7 +133,7 @@ function Signup()
                             onChange={handleUsernameChange}
                             value={data.username || ''}
                         />
-                        <ErrorText message={error.username}/>
+                        <ErrorText message={error.username.message}/>
                     </div>
                     <div>
                         <TextField 
@@ -132,10 +143,10 @@ function Signup()
                             label="Password" 
                             variant="outlined" 
                             fullWidth
-                            onChange={validatePassword}
+                            onChange={handlePasswordChange}
                             value={data.password || ''}
                         />
-                        <ErrorText message={error.password}/>
+                        <ErrorText message={error.password.message}/>
                     </div>
                     <div>
                         <TextField 
@@ -145,10 +156,10 @@ function Signup()
                             label="Repeat Password" 
                             variant="outlined" 
                             fullWidth
-                            onChange={validatePassword}
+                            onChange={handlePasswordChange}
                             value={data.confirmPassword || ''}
                         />
-                        <ErrorText message={error.confirmPassword}/>
+                        <ErrorText message={error.confirmPassword.message}/>
                     </div>
 
                     <Tooltip title="This feature was not implemented">
