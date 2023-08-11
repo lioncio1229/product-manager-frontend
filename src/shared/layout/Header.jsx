@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import {Box, Container, Stack, Typography, Tooltip, IconButton, Avatar, Menu, MenuItem, ListItemText, ListItemIcon } from "@mui/material";
 import { Person, Logout } from "@mui/icons-material";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import useAuthenticated from '../hooks/useAuthenticated';
+import useAuthenticated from '../../hooks/useAuthenticated';
 
 function Header(){
     const [username, setUserName] = useState('');
@@ -60,6 +61,7 @@ function Header(){
                 </Stack>
             </Container>
         </Box>
+        <Outlet />
     </>
 }
 

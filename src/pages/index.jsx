@@ -1,25 +1,35 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Signin from "./Signin";
-import Signup from "./Signup";
-import ProductDashboard from "./ProductDashboard";
+import {Header, AuthMenu} from "../shared/layout";
+import {Signin, Signup} from "./auth";
+import Dashboard from "./dashboard";
 import LoadingBar from "../shared/LoadingBar";
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        element: <Signin/>
+        element: <AuthMenu/>,
+        children: [
+            {
+                path: '/',
+                element: <Signin/>
+            },
+            {
+                path: '/signin',
+                element: <Signin/>
+            },
+            {
+                path: '/signup',
+                element: <Signup/>
+            },
+        ]
     },
     {
-        path: '/signin',
-        element: <Signin/>
-    },
-    {
-        path: '/signup',
-        element: <Signup/>
-    },
-    {
-        path: '/dashboard',
-        element: <ProductDashboard/>
+        element: <Header />,
+        children: [
+            {
+                path: '/dashboard',
+                element: <Dashboard/>
+            }
+        ]
     },
 ]);
 

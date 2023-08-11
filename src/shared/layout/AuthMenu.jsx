@@ -1,4 +1,5 @@
 import { Grid, Box, Typography, Stack } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
 function FloatingCircle({size, pos}){
     return (
@@ -29,7 +30,7 @@ function LeftSide(){
     </Stack>
 }
 
-function AuthMenu({children}){
+function AuthMenu(){
     return <>
         <Box>
             <Grid container height={'100vh'}>
@@ -37,7 +38,7 @@ function AuthMenu({children}){
                     <LeftSide />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    {children}
+                    <Outlet/>
                 </Grid>
             </Grid>
         </Box>
