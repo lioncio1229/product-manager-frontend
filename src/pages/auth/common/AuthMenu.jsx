@@ -1,5 +1,10 @@
+import { useState } from 'react';
 import { Grid, Box, Typography, Stack } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import useAuthenticated from '../../../hooks/useAuthenticated';
+import LoadingBar from '../../../shared/LoadingBar';
+import CustomAlert from '../../../shared/CustomAlert';
+import useShowComponentAfter from '../../../hooks/useShowComponentAfter';
 
 function FloatingCircle({size, pos}){
     return (
@@ -31,14 +36,34 @@ function LeftSide(){
 }
 
 function AuthMenu(){
+
+    const navigate = useNavigate();
+    const {pathname} = useLocation();
+    const {open, show, hide, cut} = useShowComponentAfter(5000);
+    const [loadingBarOpen, setLoadingBarOpen] = useState(false);
+
+    useAuthenticated((res) => {
+        setLoadingBarOpen(false);
+        cut();
+        navigate('/dashboard');
+    }, (err) => {
+        setLoadingBarOpen(false);
+        cut();
+    }, () => {
+        show();
+        setLoadingBarOpen(true);
+    }, [pathname]);
+
     return <>
+        <LoadingBar open={loadingBarOpen} />
+        <CustomAlert open={open} title="FYI" onClose={hide} message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience delay as the server may be in a sleeping state." />
         <Box>
             <Grid container height={'100vh'}>
                 <Grid item xs={0} md={6} display={{xs: 'none', md: 'block'}}>
                     <LeftSide />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Outlet/>
+                    <Outlet context={{loadingBarOpen}}/>
                 </Grid>
             </Grid>
         </Box>

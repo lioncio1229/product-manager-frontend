@@ -11,7 +11,6 @@ function Add({onAddClick, open, onClose}){
         setProductPrice('');
         onClose();
     }
-    console.log('add!');
 
     return (
         <SideMenu title='Add New Product' open={open} onClose={closeMiddleware}>

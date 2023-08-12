@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {Header, AuthMenu} from "../shared/layout";
 import {Signin, Signup} from "./auth";
 import Dashboard from "./dashboard";
-import LoadingBar from "../shared/LoadingBar";
 
 const router = createBrowserRouter([
     {
@@ -36,7 +35,6 @@ const router = createBrowserRouter([
 function Pages(){
     return (
     <>
-        <LoadingBar/>
         <RouterProvider router={router} />
     </>
     )

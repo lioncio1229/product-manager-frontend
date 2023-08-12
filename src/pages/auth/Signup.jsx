@@ -4,20 +4,14 @@ import {LoadingButton} from '@mui/lab';
 import { Person, ArrowForward } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import useAuthenticated from "../../hooks/useAuthenticated";
 import useSnackbar from "../../hooks/useSnackbar";
-import useShowComponentAfter from "../../hooks/useShowComponentAfter";
-import CustomAlert from "../../shared/CustomAlert";
-import LoadingBar from '../../shared/LoadingBar';
 import ErrorText from "../../shared/ErrorText";
 
-function Signup()
+function Signup({loadingBarOpen})
 {
     const navigate = useNavigate();
     const {openSnackbar, closeSnackbar, snackbarProps, message} = useSnackbar();
-    const {open, show, hide, cut} = useShowComponentAfter(5000);
     const [loading, setLoading] = useState(false);
-    const [loadingBarOpen, setLoadingBarOpen] = useState(false);
     
     const [data, setData] = useState({
         username: null,
@@ -39,18 +33,6 @@ function Signup()
     }, (err) => {
         setLoading(false);
         openSnackbar(err.response.data.name || 'Signup Error');
-    });
-
-    useAuthenticated((res) => {
-        setLoadingBarOpen(false);
-        cut();
-        navigate('/dashboard');
-    }, (err) => {
-        setLoadingBarOpen(false);
-        cut();
-    }, () => {
-        show();
-        setLoadingBarOpen(true);
     });
 
     const onHandleSignup = (e) => {
@@ -109,10 +91,7 @@ function Signup()
 
     }, [data.password, data.confirmPassword]);
 
-    return <>
-        <LoadingBar open={loadingBarOpen} />
-        <CustomAlert open={open} title="FYI" onClose={hide} message="I've chosen the free tier hosting option for this app's API on Render.com. Please note that the initial load might experience delay as the server may be in a sleeping state." />
-        
+    return <>        
         <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <Container maxWidth='xs'>
                 <Stack rowGap={3} component="form" onSubmit={onHandleSignup} noValidate>

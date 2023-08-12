@@ -47,7 +47,6 @@ function Dashboard(){
         setLoadingBarOpen(false);
         getProducts();
     }, (err) => {
-        console.log('navigate please');
         navigate('/signin');
     }, () => {
         setLoadingBarOpen(true);
